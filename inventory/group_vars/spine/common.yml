@@ -101,14 +101,14 @@ bgp:
     - {int: "swp8s0", peergroup: underlay}
     - {int: "swp8s1", peergroup: underlay}
   overlay_neighbors:
-    - {ip: "{{ hostvars['leaf01'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf02'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf03'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf04'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf05'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf06'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf07'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['leaf08'].vxlan_local_loopback }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf01'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf02'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf03'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf04'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf05'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf06'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf07'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['leaf08'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
   address_family:
     - name: ipv4_unicast
       redistribute:

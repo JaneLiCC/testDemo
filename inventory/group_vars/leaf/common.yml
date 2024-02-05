@@ -59,8 +59,8 @@ bgp:
     - {int: "swp2s0", peergroup: underlay}
     - {int: "swp2s1", peergroup: underlay}
   overlay_neighbors: ## create a line per (RS removed) overlay neighbor and set it's hostname
-    - {ip: "{{ hostvars['spine01'].vxlan_local_loopback }}", peergroup: overlay}
-    - {ip: "{{ hostvars['spine02'].vxlan_local_loopback }}", peergroup: overlay}
+    - {ip: "{{ hostvars['spine01'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
+    - {ip: "{{ hostvars['spine02'].vxlan_local_loopback | ansible.utils.ipaddr('address') }}", peergroup: overlay}
   peergroups:
     - {name: underlay, description: underlay_interconnect ,remote_as: external}
     - {name: overlay, description: overlay_interconnect ,remote_as: external, ttl: 2, src: lo}
