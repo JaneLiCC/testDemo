@@ -1,2 +1,22 @@
----
-# tasks file for nvue
+- name: copy startup.yaml
+  template:
+    src: "nvue.j2"
+    dest: /etc/nvue.d/startup.yaml
+    owner: nvue
+    group: nvue
+    mode: 0644
+
+- name: nvue config replace
+  ansible.builtin.shell: nv config replace /etc/nvue.d/startup.yaml
+
+- name: nvue config apply
+  ansible.builtin.shell: nv config apply -y
+
+- name: nvue config save
+  ansible.builtin.shell: nv config save
+
+- name: set switch role for netq
+  ansible.builtin.shell: netq lcm add {{ netq.role }} switches "{{ inventory_hostname }}" 
+
+- name: Force all notified handlers to run at this point, not waiting for normal syn$
+  meta: flush_handlers

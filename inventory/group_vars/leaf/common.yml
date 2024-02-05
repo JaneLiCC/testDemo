@@ -1,0 +1,107 @@
+---
+loopback:
+  ips:
+    - "{{ vxlan_local_loopback }}"
+  vxlan_local_tunnel_ip: "{{ vxlan_local_loopback | ipaddr('address') }}"
+eth0:
+  ips:
+    - "{{ eth0_ip }}"
+bgp_interfaces:  
+  - swp33s0
+  - swp33s1
+  - swp34s0
+  - swp34s1
+netq:
+  role: leaf
+adaptive_routing: true
+routing_policies: true
+route_map:
+  - name: lo_subnet
+    rules: 
+      - id: 10 
+        description: permit_lo_subnet 
+        action: permit
+        match: interface
+        match_param: lo
+        type: ipv4
+  - name: w_ecmp
+    rules: 
+      - id: 10 
+        description: enable_w_ecmp
+        action: permit
+        set: ext-community-bw
+        set_param: multipaths
+interfaces:
+  - name: swp1s0
+    vrf: "{{ vrf_1.name }}"
+  - name: swp1s1
+    vrf: "{{ vrf_1.name }}"
+  - name: swp2s0
+    vrf: "{{ vrf_1.name }}"
+  - name: swp2s1
+    vrf: "{{ vrf_1.name }}"
+  - name: swp33s0
+    ar: true
+  - name: swp33s1
+    ar: true
+  - name: swp34s0
+    ar: true
+  - name: swp34s1
+    ar: true
+vrfs:
+  - "{{ vrf_mgmt }}"
+bgp:
+  asn: "{{ bgp_asn_prefix.leaf }}{{ id }}"
+  router_id: "{{ vxlan_local_loopback | ipaddr('address') }}"
+  peergroups:
+    - {name: underlay, description: underlay_interconnect ,remote_as: external}
+    - {name: overlay, description: overlay_interconnect ,remote_as: external, ttl: 2, src: lo}
+  address_family:
+    - name: ipv4_unicast
+      redistribute:
+        - {type: connected, route_map: lo_subnet}
+      neighbors:
+        - {interface: underlay, activate: true}
+    - name: l2vpn_evpn
+      neighbors:
+        - {interface: overlay, activate: true}
+  vrfs:
+    - "{{ vrf_1 }}"
+  vrf_params:
+    router_id: "{{ vxlan_local_loopback | ipaddr('address') }}"
+    address_family:
+      - name: ipv4_unicast
+        redistribute:
+          - {type: connected}
+        route_export:
+          - {type: to-evpn}
+      - name: l2vpn_evpn
+  graceful_restart:
+    mode: helper-only
+  path_selection: 
+    multipath: aspath-ignore
+underlay_bfd:
+  detect_multiplier: 3
+  min_rx_interval: 300
+  min_tx_interval: 300
+overlay_bfd:
+  detect_multiplier: 3
+  min_rx_interval: 1000
+  min_tx_interval: 1000
+roce:
+  mode: lossless
+qos:
+  pools:
+    - name: default-lossy
+      memory_percent: 10
+    - name: roce-lossless  
+      memory_percent: 90
+  egress_scheduler:
+    traffic_class:
+      - name: 0
+        bw_percent: 10
+        mode: dwrr
+      - name: 3
+        bw_percent: 90
+        mode: dwrr       
+  pfc_wd: true

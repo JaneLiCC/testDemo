@@ -1,0 +1,22 @@
+    qos:
+      roce:
+        enable: on
+        mode: {{ roce.mode }}
+{% if qos.egress_scheduler is defined %}
+      egress-scheduler:
+        default-global:
+          traffic-class:
+{% for tc in qos.egress_scheduler.traffic_class %}
+            '{{ tc.name }}':
+              bw-percent: {{ tc.bw_percent }}
+              mode: {{ tc.mode }}
+{% endfor %}
+{% endif %}
+{% if qos.pools is defined %}
+      traffic-pool:
+{% for pool in qos.pools %}
+        {{ pool.name }}:
+          memory-percent: {{ pool.memory_percent }}
+{% endfor %}
+{% endif %}
+ 

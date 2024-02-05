@@ -1,6 +1,15 @@
 ---
-- hosts: server
+# - hosts: server
+#   become: true
+#   gather_facts: false
+#   roles:
+#     - {role: server}
+
+- hosts: leaf spine
   become: true
   gather_facts: false
   roles:
-    - {role: server}
+    - {role: nvue}
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+

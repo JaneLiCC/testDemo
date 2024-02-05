@@ -1,0 +1,21 @@
+- set:
+    system:
+      config:
+        apply:
+          ignore:
+            /etc/cumulus/ports.conf: {}
+      hostname: {{ inventory_hostname }}
+
+#{% if roce is defined %}
+#{% include './features/roce.j2' %}
+#{% endif %}
+#{% if bgp is defined %}
+#{% include './features/bgp.j2' %}
+#{%- endif %}
+{% if inventory_hostname in groups['leaf'] %}
+{%   include './features/nve.j2' %}
+{% endif %}
+
+#    interface:
+#{% include './features/loopback.j2' %}
+#{% include './features/swp.j2' %}

@@ -1,0 +1,6 @@
+---
+id: 102
+eth0_id: 6
+lo_for_bgp_peering: "{{ vxlan_local_loopback }}" 
+
+
