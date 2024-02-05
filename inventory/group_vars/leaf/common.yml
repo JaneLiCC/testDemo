@@ -2,7 +2,7 @@
 loopback:
   ips:
     - "{{ vxlan_local_loopback }}"
-  vxlan_local_tunnel_ip: "{{ vxlan_local_loopback | ipaddr('address') }}"
+  vxlan_local_tunnel_ip: "{{ vxlan_local_loopback | ansible.utils.ipaddr('address') }}"
 eth0:
   ips:
     - "{{ eth0_ip }}"
@@ -52,7 +52,7 @@ vrfs:
   - "{{ vrf_mgmt }}"
 bgp:
   asn: "{{ bgp_asn_prefix.leaf }}{{ id }}"
-  router_id: "{{ vxlan_local_loopback | ipaddr('address') }}"
+  router_id: "{{ vxlan_local_loopback | ansible.utils.ipaddr('address') }}"
   peergroups:
     - {name: underlay, description: underlay_interconnect ,remote_as: external}
     - {name: overlay, description: overlay_interconnect ,remote_as: external, ttl: 2, src: lo}
@@ -68,7 +68,7 @@ bgp:
   vrfs:
     - "{{ vrf_1 }}"
   vrf_params:
-    router_id: "{{ vxlan_local_loopback | ipaddr('address') }}"
+    router_id: "{{ vxlan_local_loopback | ansible.utils.ipaddr('address') }}"
     address_family:
       - name: ipv4_unicast
         redistribute:

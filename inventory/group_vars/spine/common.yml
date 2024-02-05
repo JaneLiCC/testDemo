@@ -79,7 +79,7 @@ vrfs:
   - "{{ vrf_mgmt }}"
 bgp:
   asn: "{{ bgp_asn_prefix.spine }}100"
-  router_id: "{{ vxlan_local_loopback | ipaddr('address') }}"
+  router_id: "{{ vxlan_local_loopback | ansible.utils.ipaddr('address') }}"
   peergroups:
     - {name: underlay, description: underlay_switch_interconnect ,remote_as: external}
     - {name: overlay, description: overlay_interconnect ,remote_as: external, ttl: 2, src: lo}
