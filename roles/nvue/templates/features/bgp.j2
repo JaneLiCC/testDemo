@@ -173,16 +173,10 @@
 {%   for address_family in bgp.vrf_params.address_family|default() %}
 {%     if address_family.name == "ipv4_unicast" %}
               ipv4-unicast:
-{% if inventory_hostname in groups['leaf'] %}
-                aggregate-route:
-                  {{ address_family.aggregate_address }}:
-                    summary-only: on
-{%       endif %}
 {%       for redistribute in address_family.redistribute|default() %}
                 redistribute:
                   {{ redistribute.type }}:
                     enable: on
-                    route-map: {{ redistribute.route_map }}
 {%       endfor %}{# address_family.redistribute #}
                 enable: on
 {%       for route_export in address_family.route_export|default() %}
