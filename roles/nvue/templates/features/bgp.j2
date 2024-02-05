@@ -62,15 +62,13 @@
             autonomous-system: {{ bgp.asn }}
             neighbor:
 {% for neighbor in bgp.neighbors %}
-              {{ neighbor.ip }}:
-                description: {{ neighbor.description }}
+              {{ neighbor.int }}:
                 peer-group: {{ neighbor.peergroup }}
-                type: numbered
+                type: unnumbered
 {% endfor %}{# bgp.neighbors #}
 {# remove the overlay_neighbors if not EVPN #}
 {% for neighbor in bgp.overlay_neighbors %}
               {{ neighbor.ip }}:
-                description: {{ neighbor.description }}
                 peer-group: {{ neighbor.peergroup }}
                 type: numbered
 {% endfor %}{# bgp.overlay_neighbors #}

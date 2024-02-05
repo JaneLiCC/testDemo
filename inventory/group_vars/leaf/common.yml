@@ -53,6 +53,14 @@ vrfs:
 bgp:
   asn: "{{ bgp_asn_prefix.leaf }}{{ id }}"
   router_id: "{{ vxlan_local_loopback | ansible.utils.ipaddr('address') }}"
+  neighbors:
+    - {int: "swp1s0", peergroup: underlay}
+    - {int: "swp1s1", peergroup: underlay}
+    - {int: "swp2s0", peergroup: underlay}
+    - {int: "swp2s1", peergroup: underlay}
+  overlay_neighbors: ## create a line per (RS removed) overlay neighbor and set it's hostname
+    - {ip: "{{ hostvars['spine01'].vxlan_local_loopback }}", peergroup: overlay}
+    - {ip: "{{ hostvars['spine02'].vxlan_local_loopback }}", peergroup: overlay}
   peergroups:
     - {name: underlay, description: underlay_interconnect ,remote_as: external}
     - {name: overlay, description: overlay_interconnect ,remote_as: external, ttl: 2, src: lo}
