@@ -14,6 +14,7 @@
 {% if inventory_hostname in groups['leaf'] %}
 {%   include './features/nve.j2' %}
 {% endif %}
+
     interface:
 {% include './features/loopback.j2' %}
 {% include './features/swp.j2' %}
