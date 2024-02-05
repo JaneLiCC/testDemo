@@ -16,8 +16,8 @@
 - name: nvue config save
   ansible.builtin.shell: nv config save
 
-- name: set switch role for netq
-  ansible.builtin.shell: netq lcm add {{ netq.role }} switches "{{ inventory_hostname }}" 
+# - name: set switch role for netq
+#   ansible.builtin.shell: netq lcm add {{ netq.role }} switches "{{ inventory_hostname }}" 
 
 - name: Force all notified handlers to run at this point, not waiting for normal syn$
   meta: flush_handlers
