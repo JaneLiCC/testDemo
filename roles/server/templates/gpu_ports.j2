@@ -2,11 +2,11 @@ network:
   renderer: networkd
   ethernets:
 {% for int in devicesIdx %}
-    "eth{{ int }}":
+    eth{{ int }}:
       addresses:
-        - "{{ hgx_subnets_perfix.su01 }}.{{ int }}.{{ id }}/24"
+        - {{ hgx_subnets_perfix.su01 }}.{{ int }}.{{ id }}/24
       routes:
         - to: 0.0.0.0/0
-          via: "{{ hgx_subnets_perfix.su01 }}.{{ int }}.1"
+          via: {{ hgx_subnets_perfix.su01 }}.{{ int }}.1
       dhcp4: no
 {% endfor %}

@@ -23,9 +23,9 @@
     
 - name: Push gpu_ports config to hgx
   template:
-  src: gpu_ports.j2
-  dest: /etc/netplan/gpu_ports.yaml
-  mode: 0644
+    src: gpu_ports.j2
+    dest: /etc/netplan/gpu_ports.yaml
+    mode: 0644
   notify: netplan apply
 
 
