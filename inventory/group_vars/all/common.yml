@@ -1,0 +1,26 @@
+---
+fabric_name: testPOD Rail-Optimized
+bgp_asn_prefix: 
+  leaf: 651
+  spine: 65
+id: 9999
+vxlan_local_loopback: "10.10.10.{{ id }}/32" ## id is based on SU#SW# eg 11 for leaf01 su01 
+vx_version: 5.5
+
+## hgx related IP info
+hgx_subnets_perfix: ## full ip address examples 10.1.1.0/31, 10.4.3.0/31
+  su01: 10.1
+  su02: 10.2
+  su03: 10.3
+  su04: 10.4
+
+devicesIdx:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8  
+
