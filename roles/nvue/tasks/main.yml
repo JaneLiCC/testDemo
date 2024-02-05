@@ -1,3 +1,4 @@
+---
 - name: copy startup.yaml
   template:
     src: "nvue.j2"
