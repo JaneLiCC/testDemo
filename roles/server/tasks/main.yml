@@ -1,0 +1,33 @@
+---
+- name: Package installs
+  apt:
+    pkg:
+      - lldpd
+      - net-tools
+      - traceroute
+      - chrony
+    state: present
+
+- name: set hostname
+  become: yes
+  hostname:
+    name: "{{ inventory_hostname }}"
+    
+### make sure to edit both dest files accoeding to the hgx netplan yaml files (e.g. 01-netcfg.yaml)
+- name: Push mgmt_interface config to hgx
+  template:
+    src: mgmt_interface.j2
+    dest: /etc/netplan/config.yaml
+    mode: 0644
+  notify: netplan apply
+    
+    #- name: Push gpu_ports config to hgx
+    #template:
+    #src: gpu_ports.j2
+    #dest: /etc/netplan/gpu_ports.yaml
+    #mode: 0644
+    #notify: netplan apply
+
+
+- name: notify
+  meta: flush_handlers

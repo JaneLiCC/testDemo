@@ -1,0 +1,6 @@
+---
+- hosts: server
+  become: true
+  gather_facts: false
+  roles:
+    - {role: server}
