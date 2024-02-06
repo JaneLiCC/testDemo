@@ -35,7 +35,7 @@ interfaces:
   - name: swp1s0
     access: true
   - name: swp1s1
-   access: true
+    access: true
   - name: swp2s0
     access: true
   - name: swp2s1
