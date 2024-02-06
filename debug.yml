@@ -1,0 +1,15 @@
+---
+- name: debug
+  hosts: leaf01
+  tasks:
+    - name: group leaf
+      debug:
+        msg: 
+          #          - "{{ item }}"
+          - "{{ evpn is defined}}"
+          - "{{ x - 10 }}"
+            # with_items: 
+            # - "{{ groups['leaf'] }}"
+      vars:
+        x: 10
+
