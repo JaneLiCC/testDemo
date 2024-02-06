@@ -1,7 +1,7 @@
 ---
-- name: debug
-  debug:
-    msg: {{ clear }}
+# - name: debug
+#   debug:
+#     msg: "{{ clear }}"
 
 - name: clear startup.yaml
   template:
