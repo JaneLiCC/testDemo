@@ -1,5 +1,9 @@
 ---
-- name: copy startup.yaml
+- name: debug
+  debug:
+    msg: {{ clear }}
+
+- name: clear startup.yaml
   template:
     src: "clear.j2"
     dest: /etc/nvue.d/startup.yaml
@@ -7,8 +11,8 @@
     group: nvue
     mode: 0644
   when: clear==1
-  
-- name: clear startup.yaml
+
+- name: copy startup.yaml
   template:
     src: "nvue.j2"
     dest: /etc/nvue.d/startup.yaml
