@@ -1,0 +1,81 @@
+graph "test" {
+  "server01" [ memory="1024" os="generic/ubuntu2204" cpu="1"]
+  "server02" [ memory="1024" os="generic/ubuntu2204" cpu="1"]
+  "server03" [ memory="1024" os="generic/ubuntu2204" cpu="1"]
+  "server04" [ memory="1024" os="generic/ubuntu2204" cpu="1"]
+  "leaf01" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf02" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf03" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf04" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf05" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf06" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf07" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "leaf08" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "spine01" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "spine02" [ memory="2048" os="cumulus-vx-5.7.0" cpu="1"]
+  "netq-ts" [os="netq-ts-cloud-4.5.0"]
+    "server01":"eth1" -- "leaf01":"swp1s0"
+    "server01":"eth2" -- "leaf02":"swp1s0"
+    "server01":"eth3" -- "leaf03":"swp1s0"
+    "server01":"eth4" -- "leaf04":"swp1s0"
+    "server01":"eth5" -- "leaf05":"swp1s0"
+    "server01":"eth6" -- "leaf06":"swp1s0"
+    "server01":"eth7" -- "leaf07":"swp1s0"
+    "server01":"eth8" -- "leaf08":"swp1s0"
+    "server02":"eth1" -- "leaf01":"swp1s1"
+    "server02":"eth2" -- "leaf02":"swp1s1"
+    "server02":"eth3" -- "leaf03":"swp1s1"
+    "server02":"eth4" -- "leaf04":"swp1s1"
+    "server02":"eth5" -- "leaf05":"swp1s1"
+    "server02":"eth6" -- "leaf06":"swp1s1"
+    "server02":"eth7" -- "leaf07":"swp1s1"
+    "server02":"eth8" -- "leaf08":"swp1s1"
+    "server03":"eth1" -- "leaf01":"swp2s0"
+    "server03":"eth2" -- "leaf02":"swp2s0"
+    "server03":"eth3" -- "leaf03":"swp2s0"
+    "server03":"eth4" -- "leaf04":"swp2s0"
+    "server03":"eth5" -- "leaf05":"swp2s0"
+    "server03":"eth6" -- "leaf06":"swp2s0"
+    "server03":"eth7" -- "leaf07":"swp2s0"
+    "server03":"eth8" -- "leaf08":"swp2s0"
+    "server04":"eth1" -- "leaf01":"swp2s1"
+    "server04":"eth2" -- "leaf02":"swp2s1"
+    "server04":"eth3" -- "leaf03":"swp2s1"
+    "server04":"eth4" -- "leaf04":"swp2s1"
+    "server04":"eth5" -- "leaf05":"swp2s1"
+    "server04":"eth6" -- "leaf06":"swp2s1"
+    "server04":"eth7" -- "leaf07":"swp2s1"
+    "server04":"eth8" -- "leaf08":"swp2s1"
+    "leaf01":"swp33s0" -- "spine01":"swp1s0"
+    "leaf01":"swp33s1" -- "spine01":"swp1s1"
+    "leaf01":"swp34s0" -- "spine02":"swp1s0"
+    "leaf01":"swp34s1" -- "spine02":"swp1s1"
+    "leaf02":"swp33s0" -- "spine01":"swp2s0"
+    "leaf02":"swp33s1" -- "spine01":"swp2s1"
+    "leaf02":"swp34s0" -- "spine02":"swp2s0"
+    "leaf02":"swp34s1" -- "spine02":"swp2s1"
+    "leaf03":"swp33s0" -- "spine01":"swp3s0"
+    "leaf03":"swp33s1" -- "spine01":"swp3s1"
+    "leaf03":"swp34s0" -- "spine02":"swp3s0"
+    "leaf03":"swp34s1" -- "spine02":"swp3s1"
+    "leaf04":"swp33s0" -- "spine01":"swp4s0"
+    "leaf04":"swp33s1" -- "spine01":"swp4s1"
+    "leaf04":"swp34s0" -- "spine02":"swp4s0"
+    "leaf04":"swp34s1" -- "spine02":"swp4s1"
+    "leaf05":"swp33s0" -- "spine01":"swp5s0"
+    "leaf05":"swp33s1" -- "spine01":"swp5s1"
+    "leaf05":"swp34s0" -- "spine02":"swp5s0"
+    "leaf05":"swp34s1" -- "spine02":"swp5s1"
+    "leaf06":"swp33s0" -- "spine01":"swp6s0"
+    "leaf06":"swp33s1" -- "spine01":"swp6s1"
+    "leaf06":"swp34s0" -- "spine02":"swp6s0"
+    "leaf06":"swp34s1" -- "spine02":"swp6s1"
+    "leaf07":"swp33s0" -- "spine01":"swp7s0"
+    "leaf07":"swp33s1" -- "spine01":"swp7s1"
+    "leaf07":"swp34s0" -- "spine02":"swp7s0"
+    "leaf07":"swp34s1" -- "spine02":"swp7s1"
+    "leaf08":"swp33s0" -- "spine01":"swp8s0"
+    "leaf08":"swp33s1" -- "spine01":"swp8s1"
+    "leaf08":"swp34s0" -- "spine02":"swp8s0"
+    "leaf08":"swp34s1" -- "spine02":"swp8s1"
+}
