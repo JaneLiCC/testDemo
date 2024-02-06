@@ -1,0 +1,16 @@
+    bridge:
+      domain:
+        enable: on
+        source:
+          address: {{ loopback.vxlan_local_tunnel_ip }}
+
+    bridge:
+      domain:
+        br_default:
+          type: vlan-aware
+          vlan:
+{% for vlan in vlans %}        
+            {{ vlan }}:
+              vni:
+                {{ vlan }}: {}
+{% endfor %}

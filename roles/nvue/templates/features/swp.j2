@@ -3,6 +3,12 @@
         link:
           state:
             up: {}
+{% if interface.vrf is defined %}
+        bridge:
+          domain:
+            br_default:
+              access: {{vlan}}
+{% endif %}
 {# CURRENTLY NOT SUPPORTED ON VX BREACKOUT PORTS 
 {% if qos.pfc_wd is defined %}            
         qos:
