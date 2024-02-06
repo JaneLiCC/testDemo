@@ -1,3 +1,4 @@
 id: 13
+vlan: 30
 eth0_id: 2
 vtep: true
