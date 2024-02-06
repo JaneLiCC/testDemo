@@ -33,13 +33,9 @@ route_map:
         set_param: multipaths
 interfaces:
   - name: swp1s0
-    vrf: "{{ vrf_1.name }}"
   - name: swp1s1
-    vrf: "{{ vrf_1.name }}"
   - name: swp2s0
-    vrf: "{{ vrf_1.name }}"
   - name: swp2s1
-    vrf: "{{ vrf_1.name }}"
   - name: swp33s0
     ar: true
   - name: swp33s1
@@ -48,6 +44,12 @@ interfaces:
     ar: true
   - name: swp34s1
     ar: true
+  - name: vlan{{ vlan }}
+    vrr: true
+    ip: "{{ hgx_subnets_perfix.su01 }}.{{ id - 10 }}.2/24"
+    vrrip: "{{ hgx_subnets_perfix.su01 }}.{{ id - 10}}.1/24"
+    vrrmac: "00:00:00:00:1a:{{ id }}"
+    vrf: "{{ vrf_1.name }}"
 vrfs:
   - "{{ vrf_mgmt }}"
 bgp:
@@ -67,7 +69,7 @@ bgp:
   address_family:
     - name: ipv4_unicast
       redistribute:
-        - {type: connected, route_map: lo_subnet}
+        - {type: connected}
       neighbors:
         - {interface: underlay, activate: true}
     - name: l2vpn_evpn
@@ -81,8 +83,8 @@ bgp:
       - name: ipv4_unicast
         redistribute:
           - {type: connected}
-        route_export:
-          - {type: to-evpn}
+        # route_export:
+        #   - {type: to-evpn}
       - name: l2vpn_evpn
   graceful_restart:
     mode: helper-only

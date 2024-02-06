@@ -1,21 +1,26 @@
 {% for interface in interfaces|default() %}
+{% if interface.vrr is defined %}
+        ip:
+          address:
+            {{ interface.ip }}: {}
+          vrr:
+            address:
+              {{ interface.vrrip }}: {}
+            mac-address: {{ interface.vrrmac }}
+            enable: on
+            state:
+              up: {}
+        type: svi
+        vlan: {{ vlan }}
+{% else %}
       {{ interface.name }}:
         link:
           state:
             up: {}
-{% if interface.vrf is defined %}
         bridge:
           domain:
             br_default:
               access: {{vlan}}
-{% endif %}
-{# CURRENTLY NOT SUPPORTED ON VX BREACKOUT PORTS 
-{% if qos.pfc_wd is defined %}            
-        qos:
-          pfc-watchdog:
-            state: enable
-{%  endif %}
-#}
         type: swp
 {% if adaptive_routing is defined %}
 {% if interface.ar is true %}
@@ -33,6 +38,7 @@
             {{ interface.ip }}: {}
 {% if interface.vrf is defined %}
           vrf: {{ interface.vrf }}
+{%  endif %}
 {%  endif %}
 {%  endif %}
 {%-   endfor %}

@@ -1,5 +1,8 @@
+{% if evpnEnable is defined %}
     nve:
       vxlan:
         enable: on
+        arp-nd-suppress: on
         source:
           address: {{ loopback.vxlan_local_tunnel_ip }}
+{%  endif %}

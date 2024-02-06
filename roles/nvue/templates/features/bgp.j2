@@ -1,6 +1,8 @@
 
+{% if evpnEnable is defined %}
     evpn:
       enable: on
+{% endif %}
     router:
       bgp:
         enable: on
@@ -67,11 +69,13 @@
                 type: unnumbered
 {% endfor %}{# bgp.neighbors #}
 {# remove the overlay_neighbors if not EVPN #}
+{% if evpnEnable is defined %}
 {% for neighbor in bgp.overlay_neighbors %}
               {{ neighbor.ip }}:
                 peer-group: {{ neighbor.peergroup }}
                 type: numbered
 {% endfor %}{# bgp.overlay_neighbors #}
+{%  endif %}
 {% if bgp.path_selection is defined %}
             path-selection:
               multipath:
@@ -81,8 +85,7 @@
             peer-group:
 {% for peergroup in bgp.peergroups|default() %}
               {{ peergroup.name }}:
-{% if peergroup.name == "underlay" %}
-{# added static route-map for testing, add template #}
+{%  if peergroup.name == "underlay" %}
                 address-family:
                   ipv4-unicast:
                     policy:
@@ -94,9 +97,9 @@
                   enable: on
                   min-rx-interval: {{ underlay_bfd.min_rx_interval }}
                   min-tx-interval: {{ underlay_bfd.min_tx_interval }}
-{%  endif %}
+      {%  endif %}
 {% elif peergroup.name == "overlay" %}
-{% if overlay_bfd is defined %}
+      {% if overlay_bfd is defined %}
                 bfd:
                   detect-multiplier: {{ overlay_bfd.detect_multiplier }}
                   enable: on
@@ -109,8 +112,7 @@
                 description: {{ peergroup.description }}
                 remote-as: {{ peergroup.remote_as }}
 {% for address_family in bgp.address_family|default() %}
-{%     for neighbor in address_family.neighbors|default() %}
-{# only for evpn AF on onverlay peer-group #}
+{% for neighbor in address_family.neighbors|default() %}
 {% if peergroup.name == "overlay" %}
 {% if address_family.name == "ipv4_unicast" %}
 {%       if neighbor.activate|default(False) %}
@@ -122,11 +124,6 @@
 {%       if neighbor.activate|default(False) %}
                   {{ address_family.name|replace('_', '-') }}:
                     enable: on
-{# RS removed
-{%       if neighbor.rs_client|default(False) %}
-                    route-server-client: on
-{%       endif %}
-#}
 {%       endif %}
 {%       endif %}
 {%       endif %}
@@ -137,24 +134,18 @@
 {%   for address_family in bgp.address_family|default() %}
 {%     if address_family.name == "ipv4_unicast" %}
               ipv4-unicast:
-{# ONLY FOR L3 FABRIC W/O EVPN
-{% if inventory_hostname in groups['leaf'] %}
-                aggregate-route:
-                  {{ address_family.aggregate_address }}:
-                    summary-only: on
-{%       endif %}
-#}
 {%       for redistribute in address_family.redistribute|default() %}
                 redistribute:
                   {{ redistribute.type }}:
                     enable: on
-                    route-map: {{ redistribute.route_map }}
                 enable: on
 {%       endfor %}
 {%     elif address_family.name == "l2vpn_evpn" %}
+{%        if evpnEnable is defined %}
               l2vpn-evpn:
                 enable: on
-{%       endif %}
+{%        endif %}
+{%     endif %}
 {%   endfor %}{# bgp.address_family #}
 {% for vrf in bgp.vrfs|default() %}
       {{ vrf.name }}:
@@ -185,24 +176,17 @@
                     enable: on
 {%       endfor %}{# address_family.route_export #}
 {%     elif address_family.name == "l2vpn_evpn" %}
+{%        if evpnEnable is defined %}
               l2vpn-evpn:
                 enable: on
+{%        endif %}
 {%     endif %}{# address_family.name #}
 {%   endfor %}{# vrf.address_family #}
+{%   if evpnEnable is defined %}
         evpn:
           vni:
             '{{ vrf.vni }}': {}
           enable: on
+{%   endif %}
 {%   endfor %}{# bgp.vrfs #}
-{% for vrf in vrfs|default() if vrf.routes is defined %}
-      {{ vrf.name }}:
-        router:
-{%     for route in vrf.routes|default() %}
-          static:
-            {{ route.prefix }}:
-              via:
-                {{ route.via }}:
-                  type: ipv4-address
-              address-family: ipv4-unicast
-{%     endfor %}{# vrf.routes #}
-{% endfor %}{# vrfs #}
+
