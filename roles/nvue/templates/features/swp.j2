@@ -1,5 +1,6 @@
 {% for interface in interfaces|default() %}
 {% if interface.vrr is defined %}
+      {{ interface.name }}:
         ip:
           address:
             {{ interface.ip }}: {}
