@@ -17,7 +17,7 @@
         link:
           state:
             up: {}
-{% if inventory_hostname in groups['leaf'] %}
+{% if inventory_hostname in groups['leaf'] and interface.access is defined %}
         bridge:
           domain:
             br_default:
