@@ -97,7 +97,7 @@
                   enable: on
                   min-rx-interval: {{ underlay_bfd.min_rx_interval }}
                   min-tx-interval: {{ underlay_bfd.min_tx_interval }}
-      {%  endif %}
+{%  endif %}
 {% elif peergroup.name == "overlay" %}
 {% if overlay_bfd is defined %}
                 bfd:
