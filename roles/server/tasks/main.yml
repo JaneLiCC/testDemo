@@ -7,6 +7,7 @@
       - traceroute
       - chrony
     state: present
+  when: clear==0
 
 - name: set hostname
   become: yes
@@ -20,13 +21,15 @@
     dest: /etc/netplan/config.yaml
     mode: 0644
   notify: netplan apply
-    
+  when: clear==0
+
 - name: Push gpu_ports config to hgx
   template:
     src: gpu_ports.j2
     dest: /etc/netplan/gpu_ports.yaml
     mode: 0644
   notify: netplan apply
+  when: clear==0
 
 - name: Copy IP addresses list for testing
   copy:

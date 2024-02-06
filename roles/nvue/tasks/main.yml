@@ -1,7 +1,13 @@
 ---
+<<<<<<< HEAD
 # - name: debug
 #   debug:
 #     msg: "{{ clear }}"
+=======
+#- name: debug
+#  debug:
+#    msg: "{{ clear }}"
+>>>>>>> 99f2d64f3247924a0d1d8f8f0dfa66f1d1073d1a
 
 - name: clear startup.yaml
   template:
@@ -10,7 +16,7 @@
     owner: nvue
     group: nvue
     mode: 0644
-  when: clear==1
+  when: clear=="1"
 
 - name: copy startup.yaml
   template:
