@@ -5,7 +5,7 @@
           type: vlan-aware
           vlan:
 {% for vlan in vlans %}        
-            {{ vlan }}:
+            "{{ vlan }}":
               vni:
-                {{ vlan }}: {}
+                "{{ vlan }}: {}"
 {% endfor %}
