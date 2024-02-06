@@ -1,5 +1,4 @@
 ---
-{% if clear is defined %}
 - name: copy startup.yaml
   template:
     src: "clear.j2"
@@ -7,7 +6,8 @@
     owner: nvue
     group: nvue
     mode: 0644
-{% else %}
+  when: clear==1
+  
 - name: clear startup.yaml
   template:
     src: "nvue.j2"
@@ -15,7 +15,8 @@
     owner: nvue
     group: nvue
     mode: 0644
-{% endif %}
+  when: clear==0
+
 - name: nvue config replace
   ansible.builtin.shell: nv config replace /etc/nvue.d/startup.yaml
 
