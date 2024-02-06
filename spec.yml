@@ -1,9 +1,9 @@
 ---
-# - hosts: server
-#   become: true
-#   gather_facts: false
-#   roles:
-#     - {role: server}
+- hosts: server
+  become: true
+  gather_facts: false
+  roles:
+    - {role: server}
 
 - hosts: leaf spine
   become: true
