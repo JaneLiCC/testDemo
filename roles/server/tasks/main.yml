@@ -28,6 +28,19 @@
     mode: 0644
   notify: netplan apply
 
+- name: Copy IP addresses list for testing
+  copy:
+    src: ip_addresses.txt
+    dest: /home/ubuntu
+    mode: 0644
+  when: inventory_hostname == "server01"
+
+- name: Copy ping test script testing
+  copy:
+    src: ping.sh
+    dest: /home/ubuntu
+    mode: 0777
+  when: inventory_hostname == "server01"
 
 - name: notify
   meta: flush_handlers
