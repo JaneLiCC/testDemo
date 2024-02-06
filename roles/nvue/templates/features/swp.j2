@@ -17,10 +17,12 @@
         link:
           state:
             up: {}
+{% if inventory_hostname in groups['leaf'] %}
         bridge:
           domain:
             br_default:
               access: {{vlan}}
+{%  endif %}
         type: swp
 {% if adaptive_routing is defined %}
 {% if interface.ar is true %}

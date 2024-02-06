@@ -99,7 +99,7 @@
                   min-tx-interval: {{ underlay_bfd.min_tx_interval }}
       {%  endif %}
 {% elif peergroup.name == "overlay" %}
-      {% if overlay_bfd is defined %}
+{% if overlay_bfd is defined %}
                 bfd:
                   detect-multiplier: {{ overlay_bfd.detect_multiplier }}
                   enable: on
